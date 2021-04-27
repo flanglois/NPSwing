@@ -22,8 +22,8 @@ if __name__ == "__main__":
 
     # command line parsing
     parser = ArgumentParser(description="NP Swing hdf5 script")
-    parser.add_argument("-f1","--h5_input_file_root",help="Copy of Nexus file from DataMerger")
-    parser.add_argument("-f2","--csv_input_file_root",help="csv file from DeltaTau")
+    parser.add_argument("-d1","--csv_input_directory",help="Directory where the CSV files will arrive (eg from FtpClient")
+    parser.add_argument("-d2","--nxs_output_directory",help="Directory where the NXS files will be written")
     parser.add_argument("-num1","--num1",help="start number")
     parser.add_argument("-num2","--num2",help="end number")
 
