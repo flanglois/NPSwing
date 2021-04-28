@@ -37,18 +37,20 @@ if __name__ == "__main__":
         num1 = int(args.num1)
     if args.num2:
         num2 = int(args.num2)
-    
-    # get filenames 
-    csv_dir = os.path.dirname(csv_input_directory)
-    (_,_,csv_filenames) = walk(csv_dir).next()
 
-    print "csv_input_directory = ", csv_dir
+    print "csv_input_directory = ", csv_input_directory
     print "nxs_output_directory = ", nxs_output_directory
+    
+    # get csv filenames 
+    (_,_,csv_filenames) = walk(csv_input_directory).next()
+
+    print "csv_filenames = ", csv_filenames
 
     columns_dict = { "0":"Gate_index",
                     "1":"Calc-Gated_Sample-X"}
 
     while num1 <= num2:
+        print "num1 = ", num1
         the_csv_file = ""
         the_nxs_file = ""
         for f in csv_filenames:
@@ -56,17 +58,12 @@ if __name__ == "__main__":
                 the_csv_file = f
                 the_nxs_file = os.path.splitext(f)[0]+'.nxs'
                 break
-            else:
-                exit()
-            
+
         print "csv_file = ", the_csv_file
         print "nxs_file = ", the_nxs_file
 
-        print "num1 = ", num1
-        
         num1+=1
-        
-    
+
         #==========================================================================   
         # read csv file and 
         calc_gated_sample_tx    = []
@@ -84,7 +81,7 @@ if __name__ == "__main__":
         substraction_noisy10tx  = []
         substraction_noisy10tz  = []
 
-        with open(csv_dir+'/'+the_csv_file) as csv_file:
+        with open(csv_input_directory + '/' + the_csv_file) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=';')
             line_count = 0
             for a_row in csv_reader:
@@ -127,7 +124,7 @@ if __name__ == "__main__":
             
         #==========================================================================   
         # create nxs file
-        f = h5py.File(nxs_output_directory +'/'+ "flo.nxs", 'a')
+        f = h5py.File(nxs_output_directory +'/'+ the_nxs_file, 'a')
         f.create_group("/entry/scan_data")
         
         #==========================================================================       
@@ -137,7 +134,7 @@ if __name__ == "__main__":
  #       calc_gated_fzp_tx_nx    = f['/'+key_top[0]+'/scan_data'].create_dataset(u"historised_fzp_tx", data=calc_gated_fzp_tx)
  #       calc_gated_fzp_tz_nx    = f['/'+key_top[0]+'/scan_data'].create_dataset(u"historised_fzp_tz", data=calc_gated_fzp_tz)
         substraction_tx_nx      = f["/entry/scan_data"].create_dataset(u"historised_relative_sample_tx", data=substraction_tx)
-    #substraction_tz_nx      = f['/entry/scan_data'].create_dataset(u"historised_relative_sample_tz", data=substraction_tz)
+        substraction_tz_nx      = f['/entry/scan_data'].create_dataset(u"historised_relative_sample_tz", data=substraction_tz)
  #       substraction_noisytx_nx      = f['/'+key_top[0]+'/scan_data'].create_dataset(u"historised_relative_sample_noisy100tx", data=substraction_noisy100tx)
  #       substraction_noisytz_nx      = f['/'+key_top[0]+'/scan_data'].create_dataset(u"historised_relative_sample_noisy100tz", data=substraction_noisy100tz)
  #       substraction_noisytx_nx      = f['/'+key_top[0]+'/scan_data'].create_dataset(u"historised_relative_sample_noisy50tx", data=substraction_noisy50tx)
