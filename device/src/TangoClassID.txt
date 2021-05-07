@@ -1,0 +1,11 @@
+/**
+ * Device Class Identification:
+ * 
+ * Class Name   :	ds_DeltaTauToNexus
+ * Contact      :	langlois@synchrotron-soleil.fr
+ * Class Family :	Miscellaneous
+ * Platform     :	All Platforms
+ * Bus          :	Not Applicable
+ * Manufacturer :	SOLEIL
+ * Reference    :	NP
+ */

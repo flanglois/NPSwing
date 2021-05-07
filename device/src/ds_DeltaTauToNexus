@@ -1,0 +1,30 @@
+#!/bin/sh
+
+
+GLOBAL_FS_ROOT=/usr/Local/FlyscanRoot
+LOCAL_FS_ROOT=$HOME/FlyscanRoot
+
+if [ -z "$FLYSCAN_ROOT" ]; then
+  if [ -d "$GLOBAL_FS_ROOT" ]; then
+    export FLYSCAN_ROOT=$GLOBAL_FS_ROOT
+  elif [ -d "$LOCAL_FS_ROOT" ]; then
+    export FLYSCAN_ROOT=$LOCAL_FS_ROOT
+  else
+    export FLYSCAN_ROOT=.
+  fi
+fi
+
+[ -z "$PYTANGO_ROOT" ] && export PYTANGO_ROOT=/usr/Local/PyTangoRoot
+
+
+
+FLYSCAN_PYTHONPATH=$FLYSCAN_ROOT/lib/python2.7/site-packages
+PYTHONPATH=$FLYSCAN_PYTHONPATH:$PYTANGO_ROOT
+export PYTHONPATH
+
+LD_LIBRARY_PATH=$FLYSCAN_ROOT/lib:$PYTANGO_ROOT/lib:$STARTER_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+export PATH=$PYTANGO_ROOT/bin:$PATH
+
+python ds_DeltaTauToNexus.py $1 $2
